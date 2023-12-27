@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
-
 @NoArgsConstructor
+
 @AllArgsConstructor
 @Transactional
 @Service
@@ -32,13 +32,11 @@ public class UtilisateurService implements UserDetailsService {
 
     public void inscription(Utilisateur utilisateur){
 
-        if(!utilisateur.getEmail().contains("@")) throw new RuntimeException("Le mail est invalide");
-        if (!utilisateur.getEmail().contains(".")) throw new RuntimeException(("Le mail est invalide"));
+        if(!utilisateur.getEmail().contains("@") || !utilisateur.getEmail().contains(".")) throw new RuntimeException("Le mail est invalide");
         Optional<Utilisateur> utilisateurOptional = this.utilisateurRepository.findByEmail(utilisateur.getEmail());
         if (utilisateurOptional.isPresent()) throw new RuntimeException("Cet email existe déja ");
         String mdpCrypt =  this.passwordEncoder.encode(utilisateur.getPassword());
         utilisateur.setMdp(mdpCrypt);
-
         Role roleUtilisateur = new Role();
         roleUtilisateur.setLibelle(TypeDeRole.UTILISATEUR);
         utilisateur.setRole(roleUtilisateur);
