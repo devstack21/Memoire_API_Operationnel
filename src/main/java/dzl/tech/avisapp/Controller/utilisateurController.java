@@ -1,0 +1,54 @@
+package dzl.tech.avisapp.Controller;
+
+import dzl.tech.avisapp.Dto.AuthenticationDTO;
+import dzl.tech.avisapp.Entities.Utilisateur;
+import dzl.tech.avisapp.Entities.Validation;
+import dzl.tech.avisapp.Service.UtilisateurService;
+import dzl.tech.avisapp.Service.ValidationService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.Instant;
+import java.util.Map;
+
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+@Slf4j
+@AllArgsConstructor
+@RestController
+@RequestMapping(consumes = APPLICATION_JSON_VALUE)
+public class utilisateurController {
+    private final UtilisateurService utilisateurService;
+    private final ValidationService validationService;
+    private AuthenticationManager authenticationManager;
+    @PostMapping(path="inscription")
+    public void inscription(@RequestBody Utilisateur utilisateur){
+
+    log.info("Inscription");
+        this.utilisateurService.inscription(utilisateur);
+    }
+    @PostMapping(path="activation")
+    public void activation(@RequestBody Map< String , String> activation){
+
+        log.info("Validation");
+       this.utilisateurService.activation(activation);
+
+    }
+    @PostMapping(path="connexion")
+    public Map<String , String> connexion(@RequestBody AuthenticationDTO authenticationDTO){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                  authenticationDTO.username(),
+                        authenticationDTO.password()
+                )
+
+                );
+        return null ;
+    }
+
+}
