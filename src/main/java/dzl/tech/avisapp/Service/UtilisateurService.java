@@ -19,15 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
-@NoArgsConstructor
 
 @AllArgsConstructor
 @Transactional
 @Service
-public class UtilisateurService implements UserDetailsService {
-    private UtilisateurRepository utilisateurRepository;
+public class UtilisateurService {
+    private UtilisateurRepository utilisateurRepository ;
     private BCryptPasswordEncoder passwordEncoder;
-    private ValidationService validationService;
+    private ValidationService validationService ;
 
 
     public void inscription(Utilisateur utilisateur){
@@ -57,13 +56,4 @@ public class UtilisateurService implements UserDetailsService {
 
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        return this.utilisateurRepository
-                .findByEmail(username)
-                .orElseThrow(
-                        ()-> new UsernameNotFoundException("Aucun utilisateur correspondant à cet email")
-                );
-    }
 }

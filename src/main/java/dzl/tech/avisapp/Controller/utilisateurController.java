@@ -25,7 +25,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class utilisateurController {
     private final UtilisateurService utilisateurService;
     private final ValidationService validationService;
-    private AuthenticationManager authenticationManager;
+
     @PostMapping(path="inscription")
     public void inscription(@RequestBody Utilisateur utilisateur){
 
@@ -39,16 +39,6 @@ public class utilisateurController {
        this.utilisateurService.activation(activation);
 
     }
-    @PostMapping(path="connexion")
-    public Map<String , String> connexion(@RequestBody AuthenticationDTO authenticationDTO){
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                  authenticationDTO.username(),
-                        authenticationDTO.password()
-                )
 
-                );
-        return null ;
-    }
 
 }
