@@ -2,10 +2,6 @@ package dzl.tech.avisapp.Service;
 
 import dzl.tech.avisapp.Entities.Validation;
 import dzl.tech.avisapp.Enum.TypeDeRole;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import dzl.tech.avisapp.Entities.Role;
 import dzl.tech.avisapp.Entities.Utilisateur;
@@ -17,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -54,6 +51,14 @@ public class UtilisateurService {
         utilisateurActiver.setActive(true);
         this.utilisateurRepository.save(utilisateurActiver);
 
+    }
+    public List<Utilisateur> listeUtilisateur(){
+        return this.utilisateurRepository.findAll();
+    }
+    public Utilisateur lireOuCreer(Utilisateur utilisateurACreer) {
+        Optional<Utilisateur> utilisateurBDDOptional = this.utilisateurRepository.findByEmail(utilisateurACreer.getEmail());
+
+        return utilisateurBDDOptional.orElseGet(() -> this.utilisateurRepository.save(utilisateurACreer));
     }
 
 }

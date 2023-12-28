@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,5 +20,8 @@ public class Avis {
     private int id ;
     private String message;
     private String statut;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Utilisateur utilisateur ;
+
 
 }

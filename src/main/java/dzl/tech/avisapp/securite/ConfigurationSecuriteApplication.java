@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
@@ -32,6 +33,10 @@ public class ConfigurationSecuriteApplication {
                                 authorize.requestMatchers(POST, "/inscription").permitAll()
                                         .requestMatchers(POST , "/activation").permitAll()
                                         .requestMatchers(POST , "/connexion").permitAll()
+                                        .requestMatchers(POST , "/avis").permitAll()
+                                        .requestMatchers(GET , "/avis").permitAll()
+                                        .requestMatchers(GET , "/utilisateur").permitAll()
+
                                         .anyRequest().authenticated()
                         ).build();
 

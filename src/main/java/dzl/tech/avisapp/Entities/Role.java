@@ -2,11 +2,9 @@ package dzl.tech.avisapp.Entities;
 
 import dzl.tech.avisapp.Enum.TypeDeRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,4 +17,5 @@ public class Role {
     private int id;
     @Enumerated(EnumType.STRING)
     private TypeDeRole libelle;
+    private String code;
 }

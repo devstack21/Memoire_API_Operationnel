@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @AllArgsConstructor
@@ -19,4 +21,9 @@ public class AvisController {
         this.avisService.creer(avis);
     }
 
+
+    @GetMapping(path="{id}" , produces = APPLICATION_JSON_VALUE)
+    public List<Avis> afficherAvis(@PathVariable int id){
+        return this.avisService.afficherAvis(id);
+    }
 }

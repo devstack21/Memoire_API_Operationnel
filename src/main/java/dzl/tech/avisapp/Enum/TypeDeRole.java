@@ -1,6 +1,9 @@
 package dzl.tech.avisapp.Enum;
 
 public enum TypeDeRole {
-    ADMINISTRATEUR,
-    UTILISATEUR
+    MANAGEMENT_EXEC,
+    UTILISATEUR,
+
+    ADMINISTRATEUR ,
+
 }
