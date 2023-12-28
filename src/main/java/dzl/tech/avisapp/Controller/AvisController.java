@@ -2,6 +2,7 @@ package dzl.tech.avisapp.Controller;
 
 import dzl.tech.avisapp.Entities.Avis;
 import dzl.tech.avisapp.Service.AvisService;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +23,8 @@ public class AvisController {
     }
 
 
-    @GetMapping(path="{id}" , produces = APPLICATION_JSON_VALUE)
-    public List<Avis> afficherAvis(@PathVariable int id){
+    @GetMapping
+    public List<Avis> lire(@RequestParam(required = false) Integer id){
         return this.avisService.afficherAvis(id);
     }
 }

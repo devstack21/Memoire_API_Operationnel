@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Transactional
@@ -52,8 +53,12 @@ public class UtilisateurService {
         this.utilisateurRepository.save(utilisateurActiver);
 
     }
-    public List<Utilisateur> listeUtilisateur(){
-        return this.utilisateurRepository.findAll();
+    public List<Utilisateur> listeUtilisateur(Integer id){
+        if (id == null) return this.utilisateurRepository.findAll();
+        else return this.utilisateurRepository.findById(id)
+                .stream()
+                .collect(Collectors.toList());
+
     }
     public Utilisateur lireOuCreer(Utilisateur utilisateurACreer) {
         Optional<Utilisateur> utilisateurBDDOptional = this.utilisateurRepository.findByEmail(utilisateurACreer.getEmail());

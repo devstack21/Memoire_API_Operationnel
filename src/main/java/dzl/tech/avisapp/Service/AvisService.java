@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -18,17 +19,20 @@ public class AvisService {
     private AvisRepository avisRepository;
     private UtilisateurService utilisateurService;
     private UtilisateurRepository utilisateurRepository;
-    public void creer(Avis avis){
+
+    public void creer(Avis avis) {
         Utilisateur utilisateur = utilisateurService.lireOuCreer(avis.getUtilisateur());
         avis.setUtilisateur(utilisateur);
         this.avisRepository.save(avis);
     }
 
-    public List<Avis> afficherAvis(int id) {
-        Utilisateur utilisateur = this.utilisateurRepository.findById(id)
-                .orElseThrow(
-                        ()-> new RuntimeException("Utilisateur inconnu")
-                );
-        return this.avisRepository.findAll();
+    public List<Avis> afficherAvis(Integer id) {
+        if (id == null) return this.avisRepository.findAll();
+
+        else return this.avisRepository.findById(id)
+                    .stream()
+                    .toList();
+
+
     }
 }

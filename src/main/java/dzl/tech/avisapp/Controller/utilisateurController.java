@@ -19,7 +19,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping(consumes = APPLICATION_JSON_VALUE)
+@RequestMapping(path="user")
 public class utilisateurController {
     private final UtilisateurService utilisateurService;
     private final ValidationService validationService;
@@ -37,9 +37,10 @@ public class utilisateurController {
        this.utilisateurService.activation(activation);
 
     }
-    @GetMapping(path="utilisateur",produces = APPLICATION_JSON_VALUE)
-    public List<Utilisateur> listeUtilisateur(){
-        return this.utilisateurService.listeUtilisateur();
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    public List<Utilisateur> listeUtilisateur(@RequestParam(required=false) Integer id){
+
+        return this.utilisateurService.listeUtilisateur(id);
     }
 
 

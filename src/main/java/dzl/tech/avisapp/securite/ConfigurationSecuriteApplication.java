@@ -30,12 +30,12 @@ public class ConfigurationSecuriteApplication {
                         // autoriser des requetes spécifiques
                         .authorizeHttpRequests(
                              authorize ->
-                                authorize.requestMatchers(POST, "/inscription").permitAll()
-                                        .requestMatchers(POST , "/activation").permitAll()
-                                        .requestMatchers(POST , "/connexion").permitAll()
+                                authorize.requestMatchers(POST, "/user/inscription").permitAll()
+                                        .requestMatchers(POST , "/user/activation").permitAll()
+                                        .requestMatchers(POST , "/user/connexion").permitAll()
                                         .requestMatchers(POST , "/avis").permitAll()
-                                        .requestMatchers(GET , "/avis").permitAll()
-                                        .requestMatchers(GET , "/utilisateur").permitAll()
+                                        .requestMatchers(GET , "/avis").hasAnyRole("MANAGEMENT_EXEC","ADMINISTRATEUR")
+                                        .requestMatchers(GET , "/user").permitAll()
 
                                         .anyRequest().authenticated()
                         ).build();
