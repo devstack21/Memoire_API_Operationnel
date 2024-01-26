@@ -28,7 +28,7 @@ public class AvisUtilisateursApplication implements CommandLineRunner {
 
 		Utilisateur admin = Utilisateur.builder()
 				.active(true)
-				.nom("admin")
+				.username("admin")
 				.mdp(passwordEncoder.encode("admin"))
 				.email("admindjob50@gmail.com")
 				.role(
@@ -42,7 +42,7 @@ public class AvisUtilisateursApplication implements CommandLineRunner {
 
 		Utilisateur exec = Utilisateur.builder()
 				.active(true)
-				.nom("manager_exec")
+				.username("manager_exec")
 				.mdp(passwordEncoder.encode("manager_exec"))
 				.email("managerdjob502@gmail.com")
 				.role(

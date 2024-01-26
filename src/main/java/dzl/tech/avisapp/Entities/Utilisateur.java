@@ -21,7 +21,7 @@ public class Utilisateur implements UserDetails {
     private int id;
     @Column(name="mot_de_passe")
     private String mdp;
-    private String nom ;
+    private String username ;
     @Column(unique = true)
     private String email;
     private boolean active = false;
@@ -41,7 +41,7 @@ public class Utilisateur implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.nom;
+        return this.username;
     }
 
     @Override

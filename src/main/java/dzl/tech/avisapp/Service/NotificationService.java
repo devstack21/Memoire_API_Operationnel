@@ -16,7 +16,7 @@ public class NotificationService {
         mailMessage.setTo(validation.getUtilisateur().getEmail());
         mailMessage.setSubject("Votre code d'activation");
         String texte = String.format("Bonjour %s , <br/> votre code d'activation est %s; Merci ",
-                validation.getUtilisateur().getNom(),
+                validation.getUtilisateur().getUsername(),
                 validation.getCode()
                 );
         mailMessage.setText(texte);

@@ -1,7 +1,16 @@
 package dzl.tech.avisapp.Service;
 
+import dzl.tech.avisapp.Dto.AuthenticationDTO;
 import dzl.tech.avisapp.Entities.Validation;
 import dzl.tech.avisapp.Enum.TypeDeRole;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import dzl.tech.avisapp.Entities.Role;
 import dzl.tech.avisapp.Entities.Utilisateur;
@@ -18,14 +27,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @AllArgsConstructor
 @Transactional
 @Service
-public class UtilisateurService {
+public class UtilisateurService implements UserDetailsService {
     private UtilisateurRepository utilisateurRepository ;
     private BCryptPasswordEncoder passwordEncoder;
     private ValidationService validationService ;
-
 
     public void inscription(Utilisateur utilisateur){
 
@@ -65,5 +74,13 @@ public class UtilisateurService {
 
         return utilisateurBDDOptional.orElseGet(() -> this.utilisateurRepository.save(utilisateurACreer));
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.utilisateurRepository
+                .findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Aucun utilisateur ne correspond à cet identifiant"));
+    }
+
 
 }

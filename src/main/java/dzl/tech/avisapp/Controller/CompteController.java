@@ -1,10 +1,14 @@
 package dzl.tech.avisapp.Controller;
 
+import dzl.tech.avisapp.Dto.AuthenticationDTO;
 import dzl.tech.avisapp.Entities.Utilisateur;
 import dzl.tech.avisapp.Service.UtilisateurService;
 import dzl.tech.avisapp.Service.ValidationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,15 +18,17 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping(path="account")
+@RequestMapping(path="user", consumes = APPLICATION_JSON_VALUE)
 public class CompteController {
     private final UtilisateurService utilisateurService;
     private final ValidationService validationService;
+    private final AuthenticationManager authenticationManager;
+
 
     @PostMapping(path="inscription")
     public void inscription(@RequestBody Utilisateur utilisateur){
-
-    log.info("Inscription");
+        System.out.println("INSCRIPTION");
+        log.info("Inscription");
         this.utilisateurService.inscription(utilisateur);
     }
     @PostMapping(path="activation")
@@ -33,5 +39,14 @@ public class CompteController {
 
     }
 
+    @PostMapping(path="connexion")
+    public Map<String , String> connexion(@RequestBody AuthenticationDTO authenticationDTO) {
 
+        final Authentication authenticate = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(authenticationDTO.username(), authenticationDTO.mdp())
+    );
+
+        log.info("resultat {}", authenticate.isAuthenticated());
+        return null;
+    }
 }
