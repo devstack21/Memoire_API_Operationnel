@@ -21,9 +21,6 @@ import static org.springframework.http.HttpMethod.POST;
 @EnableWebSecurity
 public class ConfigurationSecuriteApplication {
 
-
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return
@@ -55,6 +52,8 @@ public class ConfigurationSecuriteApplication {
         daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder());
         return  daoAuthenticationProvider;
      }
+
+
 
 
 }

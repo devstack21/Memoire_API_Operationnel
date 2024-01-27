@@ -44,9 +44,9 @@ public class CompteController {
 
         final Authentication authenticate = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(authenticationDTO.username(), authenticationDTO.mdp())
-    );
+        );
 
         log.info("resultat {}", authenticate.isAuthenticated());
-        return null;
-    }
+        return null;}
+
 }
