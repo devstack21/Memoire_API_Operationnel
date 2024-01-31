@@ -78,8 +78,8 @@ public class UtilisateurService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.utilisateurRepository
-                .findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Aucun utilisateur ne correspond à cet identifiant"));
+                .findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Aucun utilisateur ne correspond à cet email"));
     }
 
 
