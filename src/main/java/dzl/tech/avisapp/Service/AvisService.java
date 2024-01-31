@@ -22,6 +22,7 @@ public class AvisService {
 
     public void creer(Avis avis) {
         Utilisateur utilisateur = utilisateurService.lireOuCreer(avis.getUtilisateur());
+        System.out.println(utilisateur.getUsername());
         avis.setUtilisateur(utilisateur);
         this.avisRepository.save(avis);
     }

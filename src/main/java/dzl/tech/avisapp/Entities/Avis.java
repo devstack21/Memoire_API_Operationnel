@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.util.Optional;
 
+import static jakarta.persistence.CascadeType.MERGE;
+import static jakarta.persistence.CascadeType.PERSIST;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,7 +23,7 @@ public class Avis {
     private int id ;
     private String message;
     private String statut;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {PERSIST , MERGE})
     private Utilisateur utilisateur ;
 
 

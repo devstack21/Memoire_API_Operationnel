@@ -4,6 +4,7 @@ import dzl.tech.avisapp.Dto.AuthenticationDTO;
 import dzl.tech.avisapp.Entities.Utilisateur;
 import dzl.tech.avisapp.Service.UtilisateurService;
 import dzl.tech.avisapp.Service.ValidationService;
+import dzl.tech.avisapp.securite.JwtService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +24,7 @@ public class CompteController {
     private final UtilisateurService utilisateurService;
     private final ValidationService validationService;
     private final AuthenticationManager authenticationManager;
-
+    private final JwtService jwtService;
 
     @PostMapping(path="inscription")
     public void inscription(@RequestBody Utilisateur utilisateur){
@@ -46,7 +47,11 @@ public class CompteController {
             new UsernamePasswordAuthenticationToken(authenticationDTO.username(), authenticationDTO.mdp())
         );
 
-        log.info("resultat {}", authenticate.isAuthenticated());
-        return null;}
+        if(authenticate.isAuthenticated()) {
+            return this.jwtService.generate(authenticationDTO.username());
+        }
+
+        return null;
+    }
 
 }

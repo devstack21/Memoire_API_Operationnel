@@ -80,6 +80,9 @@ public class UtilisateurService implements UserDetailsService {
         return this.utilisateurRepository
                 .findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Aucun utilisateur ne correspond à cet identifiant"));
+
+
+
     }
 
 
