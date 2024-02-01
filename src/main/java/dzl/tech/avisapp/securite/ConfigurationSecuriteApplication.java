@@ -59,7 +59,4 @@ private final BCryptPasswordEncoder bCryptPasswordEncoder;
         return  daoAuthenticationProvider;
      }
 
-
-
-
 }

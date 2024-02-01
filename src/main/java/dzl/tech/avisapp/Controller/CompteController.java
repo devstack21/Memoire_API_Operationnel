@@ -46,10 +46,10 @@ public class CompteController {
         final Authentication authenticate = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(authenticationDTO.username(), authenticationDTO.mdp())
         );
-
-        if(authenticate.isAuthenticated()) {
-            return this.jwtService.generate(authenticationDTO.username());
-        }
+        log.info(String.valueOf(authenticate.isAuthenticated()));
+//        if(authenticate.isAuthenticated()) {
+//            return this.jwtService.generate(authenticationDTO.username());
+//        }
 
         return null;
     }

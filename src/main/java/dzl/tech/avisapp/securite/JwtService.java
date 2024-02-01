@@ -31,7 +31,8 @@ public class JwtService {
         final Map<String , Object> claims = Map.of(
                 "id" , utilisateur.getId(),
                 Claims.EXPIRATION, new Date(expirationTime),
-                Claims.SUBJECT ,utilisateur.getEmail()
+                Claims.SUBJECT ,utilisateur.getEmail(),
+                Claims.ID , utilisateur.getId()
         );
         final String bearer = Jwts.builder()
                 .setIssuedAt(new Date(currentTime))
@@ -49,7 +50,7 @@ public class JwtService {
 
     public String getUserIdByToken(String token) {
 
-        return this.getClaim(token , Claims::getSubject);
+        return this.getClaim(token , Claims::getId);
     }
 
     public Boolean isTokenExpired(String token) {

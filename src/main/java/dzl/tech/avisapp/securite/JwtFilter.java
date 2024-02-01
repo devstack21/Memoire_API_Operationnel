@@ -40,17 +40,18 @@ public class JwtFilter extends OncePerRequestFilter {
         int userID = 0;
         Boolean isTokenExpired = true ;
         final String authorization = request.getHeader("Authorization");
-        if(authorization!= null && authorization.startsWith("bearer ")){
+        if(authorization!= null && authorization.startsWith("Bearer ")){
             token = authorization.substring(7);
             isTokenExpired = jwtService.isTokenExpired(token);
             userID = Integer.parseInt(jwtService.getUserIdByToken(token));
+            log.info("TOKEN_VALUE "+jwtService.getUserIdByToken(token));
 
         }
-        log.info("TOKEN_IS_EXPIRED "+isTokenExpired+" USERID "+userID);
-        if(isTokenExpired && userID !=0 && SecurityContextHolder.getContext().getAuthentication() == null ){
+        //log.info("TOKEN_IS_EXPIRED "+isTokenExpired+" USERID "+userID+" TOKEN "+token);
+        if(isTokenExpired && userID != 0  && SecurityContextHolder.getContext().getAuthentication() == null ){
             Optional<Utilisateur> utilisateur = this.utilisateurRepository.findById(userID);
             if(utilisateur.isPresent()){
-                log.info("PRESENT ---- ");
+                //log.info("PRESENT ---- ");
                 String email = utilisateur.get().getEmail();
                 Utilisateur userDetails  = (Utilisateur) utilisateurService.loadUserByUsername(email);
                 UsernamePasswordAuthenticationToken authenticationToken =  new UsernamePasswordAuthenticationToken(userDetails , null, userDetails.getAuthorities());
