@@ -3,6 +3,7 @@ package dzl.tech.avisapp.securite;
 import dzl.tech.avisapp.Entities.Utilisateur;
 import dzl.tech.avisapp.Repository.UtilisateurRepository;
 import dzl.tech.avisapp.Service.UtilisateurService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.security.SignatureException;
 import java.util.Optional;
 
 @Slf4j
@@ -32,34 +34,43 @@ public class JwtFilter extends OncePerRequestFilter {
      * @param filterChain
      * @throws ServletException
      * @throws IOException
+     * @throws  ExpiredJwtException
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        try {
+            String token = null;
+            int userID = 0;
+            Boolean isTokenExpired = true;
+            final String authorization = request.getHeader("Authorization");
+            if (authorization != null && authorization.startsWith("Bearer ")) {
+                token = authorization.substring(7);
+                isTokenExpired = jwtService.isTokenExpired(token);
+                userID = Integer.parseInt(jwtService.getUserIdByToken(token));
 
-        String token = null ;
-        int userID = 0;
-        Boolean isTokenExpired = true ;
-        final String authorization = request.getHeader("Authorization");
-        if(authorization!= null && authorization.startsWith("Bearer ")){
-            token = authorization.substring(7);
-            isTokenExpired = jwtService.isTokenExpired(token);
-            userID = Integer.parseInt(jwtService.getUserIdByToken(token));
-            log.info("TOKEN_VALUE "+jwtService.getUserIdByToken(token));
 
-        }
-        //log.info("TOKEN_IS_EXPIRED "+isTokenExpired+" USERID "+userID+" TOKEN "+token);
-        if(isTokenExpired && userID != 0  && SecurityContextHolder.getContext().getAuthentication() == null ){
-            Optional<Utilisateur> utilisateur = this.utilisateurRepository.findById(userID);
-            if(utilisateur.isPresent()){
-                //log.info("PRESENT ---- ");
-                String email = utilisateur.get().getEmail();
-                Utilisateur userDetails  = (Utilisateur) utilisateurService.loadUserByUsername(email);
-                UsernamePasswordAuthenticationToken authenticationToken =  new UsernamePasswordAuthenticationToken(userDetails , null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
+            if (isTokenExpired && userID != 0 && SecurityContextHolder.getContext().getAuthentication() == null) {
+                Optional<Utilisateur> utilisateur = this.utilisateurRepository.findById(userID);
+                if (utilisateur.isPresent()) {
+                    String email = utilisateur.get().getEmail();
+                    Utilisateur userDetails = (Utilisateur) utilisateurService.loadUserByUsername(email);
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
+
             }
 
+            filterChain.doFilter(request, response);
         }
+        catch (ExpiredJwtException err){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // Code d'erreur HTTP 401
+            response.getWriter().write("Le jeton JWT a expiré.");
+        }
+        catch (io.jsonwebtoken.security.SignatureException err){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // Code d'erreur HTTP 401
+            response.getWriter().write("Le jeton JWT est invalide.");
 
-            filterChain.doFilter(request , response);
+        }
     }
 }

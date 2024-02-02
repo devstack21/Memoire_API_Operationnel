@@ -32,7 +32,7 @@ public class JwtService {
                 "id" , utilisateur.getId(),
                 Claims.EXPIRATION, new Date(expirationTime),
                 Claims.SUBJECT ,utilisateur.getEmail(),
-                Claims.ID , utilisateur.getId()
+                Claims.ID , String.valueOf(utilisateur.getId())
         );
         final String bearer = Jwts.builder()
                 .setIssuedAt(new Date(currentTime))

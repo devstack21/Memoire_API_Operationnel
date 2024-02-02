@@ -17,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 @AllArgsConstructor
 @Configuration
@@ -36,6 +37,7 @@ private final BCryptPasswordEncoder bCryptPasswordEncoder;
                                         .requestMatchers(POST , "user/activation").permitAll()
                                         .requestMatchers(POST , "user/connexion").permitAll()
                                         .requestMatchers(POST , "/avis").permitAll()
+                                        .requestMatchers(GET , "/avis").permitAll()
                                         .anyRequest().authenticated()
 
                         )

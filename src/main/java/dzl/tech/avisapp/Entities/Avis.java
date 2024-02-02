@@ -23,7 +23,7 @@ public class Avis {
     private int id ;
     private String message;
     private String statut;
-    @ManyToOne(cascade = {PERSIST , MERGE})
+    @ManyToOne
     private Utilisateur utilisateur ;
 
 

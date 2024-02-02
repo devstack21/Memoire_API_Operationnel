@@ -4,8 +4,10 @@ import dzl.tech.avisapp.Entities.Avis;
 import dzl.tech.avisapp.Entities.Utilisateur;
 import dzl.tech.avisapp.Repository.AvisRepository;
 import dzl.tech.avisapp.Repository.UtilisateurRepository;
+import jdk.jshell.execution.Util;
 import lombok.AllArgsConstructor;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,7 +24,6 @@ public class AvisService {
 
     public void creer(Avis avis) {
         Utilisateur utilisateur = utilisateurService.lireOuCreer(avis.getUtilisateur());
-        System.out.println(utilisateur.getUsername());
         avis.setUtilisateur(utilisateur);
         this.avisRepository.save(avis);
     }
