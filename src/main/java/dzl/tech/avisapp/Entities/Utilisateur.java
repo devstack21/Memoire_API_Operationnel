@@ -39,6 +39,7 @@ public class Utilisateur implements UserDetails {
         return this.mdp;
     }
 
+
     @Override
     public String getUsername() {
         return this.username;
