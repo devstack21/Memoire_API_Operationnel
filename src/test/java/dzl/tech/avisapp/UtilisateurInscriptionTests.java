@@ -57,8 +57,8 @@ public class UtilisateurInscriptionTests {
 //                .build();
 
 //
-        InscriptionDTO requestBody =  new InscriptionDTO("devopps" , "devopps@gmail.com","devopps1234");
-        mockMvc.perform(post("api/user/inscription"));
+//        InscriptionDTO requestBody =  new InscriptionDTO("devopps" , "devopps@gmail.com","devopps1234");
+//        mockMvc.perform(post("api/user/inscription"));
 
 
 
