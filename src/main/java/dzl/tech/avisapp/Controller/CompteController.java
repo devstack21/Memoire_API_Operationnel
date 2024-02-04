@@ -1,6 +1,8 @@
 package dzl.tech.avisapp.Controller;
 
 import dzl.tech.avisapp.Dto.AuthenticationDTO;
+import dzl.tech.avisapp.Dto.InscriptionDTO;
+import dzl.tech.avisapp.Dto.ResponseInscriptionDTO;
 import dzl.tech.avisapp.Entities.Utilisateur;
 import dzl.tech.avisapp.Service.UtilisateurService;
 import dzl.tech.avisapp.Service.ValidationService;
@@ -27,10 +29,11 @@ public class CompteController {
     private final JwtService jwtService;
 
     @PostMapping(path="inscription")
-    public void inscription(@RequestBody Utilisateur utilisateur){
+    public @ResponseBody ResponseInscriptionDTO inscription(@RequestBody Utilisateur utilisateur){
         System.out.println("INSCRIPTION");
         log.info("Inscription");
-        this.utilisateurService.inscription(utilisateur);
+        return this.utilisateurService.inscription(utilisateur);
+
     }
     @PostMapping(path="activation")
     public void activation(@RequestBody Map< String , String> activation){
