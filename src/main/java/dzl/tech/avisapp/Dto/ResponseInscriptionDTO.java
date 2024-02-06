@@ -7,4 +7,5 @@ public record ResponseInscriptionDTO(
        String code
 
 ) {
+
 }

@@ -28,7 +28,7 @@ public class CompteController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-    @PostMapping(path="inscription")
+    @PostMapping(path="inscription",produces =  APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseInscriptionDTO inscription(@RequestBody Utilisateur utilisateur){
         System.out.println("INSCRIPTION");
         log.info("Inscription");

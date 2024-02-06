@@ -43,7 +43,7 @@ private final BCryptPasswordEncoder bCryptPasswordEncoder;
                         )
                         .sessionManagement(httpSecuritySessionManagementConfigurer ->
                                 httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                        )
+                       )
                         .addFilterBefore( jwtFilter, UsernamePasswordAuthenticationFilter.class)
                         .build();
 
