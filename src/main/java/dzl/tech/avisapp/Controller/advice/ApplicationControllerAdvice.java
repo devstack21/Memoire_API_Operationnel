@@ -15,7 +15,7 @@ public class ApplicationControllerAdvice {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler({EntityNotFoundException.class})
     public @ResponseBody ErrorEntity handleException(EntityNotFoundException exception ){
-        return new ErrorEntity(null , exception.getMessage());
+        return new ErrorEntity(null , exception.getMessage(), null);
     }
 
 }

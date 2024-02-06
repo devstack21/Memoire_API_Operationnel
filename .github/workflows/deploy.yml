@@ -2,7 +2,7 @@ name: Avis application
 
 on:
   push:
-    branches: [ "login-success-email" ]
+    branches: [ "unit-test-restemplate" ]
 
 jobs:
   build:
