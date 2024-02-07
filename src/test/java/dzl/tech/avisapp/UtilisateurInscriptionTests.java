@@ -2,6 +2,7 @@ package dzl.tech.avisapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dzl.tech.avisapp.Controller.CompteController;
+import dzl.tech.avisapp.Dto.Error.Dto.ErrorEntity;
 import dzl.tech.avisapp.Dto.InscriptionDTO;
 import dzl.tech.avisapp.Dto.ResponseInscriptionDTO;
 import dzl.tech.avisapp.Entities.Avis;
@@ -117,78 +118,39 @@ public class UtilisateurInscriptionTests{
 
     @Test
     public void InscriptionTestInvalidMail() {
-        Utilisateur user = Utilisateur.builder()
-                .active(true)
-                .username("devSecOpsPython")
-                //.mdp(passwordEncoder.encode("devSecOpsPython1234"))
-                .email("devSecOpsPythongmail.com")
-                .role(
-                        Role.builder()
-                                .libelle(TypeDeRole.UTILISATEUR)
-                                .build()
-                )
-                .build();
 
+        // mock user
+        Utilisateur utilisateur =  Utilisateur.builder()
+                .username("devDjob")
+                .mdp("devDjob1234")
+                .email("devDjobgmail.com")
+                .build();
+        Role roleUtilisateur = new Role();
+        roleUtilisateur.setLibelle(TypeDeRole.UTILISATEUR);
+        utilisateur.setRole(roleUtilisateur);
+
+        //Setup
+        baseUrlAPI = baseUrlAPI.concat("/user/inscription");
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.httpHeaders.set("Authorization","Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZXZzZWNvcHNAZ21haWwuY29tIiwiaWQiOjEzLCJleHAiOjE3MDcyNTgzMzQsImp0aSI6IjEzIn0.O7OA3rDUEHSlANnjRoTJGkFU_ARo_AYwFWZBlh2tXoA");
+
+        // Simuler la réponse attendue du serveur lorsque l'endpoint est appelé
+        mockServer.expect(requestTo(baseUrlAPI))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.OK));
+
+        HttpEntity<Utilisateur> request = new HttpEntity<>(utilisateur , this.httpHeaders);
+        ResponseEntity<ErrorEntity> response=  restTemplate.postForEntity(baseUrlAPI ,request, ErrorEntity.class);
+
+        log.info(baseUrlAPI);
+
+        // Vérifier que le statut de la réponse est OK (200)
+        assertEquals("USC000", response.getBody().code());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        // Vérifier que toutes les attentes ont été satisfaites
+        mockServer.verify();
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

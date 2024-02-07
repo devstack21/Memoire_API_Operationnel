@@ -1,6 +1,9 @@
 package dzl.tech.avisapp.Entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,12 +22,20 @@ public class Utilisateur implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotEmpty(message = "Le mot de passe ne doit pas être vide")
     @Column(name="mot_de_passe")
     private String mdp;
+
     private String username ;
+
+    @NotEmpty(message = "L'email ne doit pas être vide ")
+    @Email(message = "L'email doit etre valide")
     @Column(unique = true)
     private String email;
+
     private boolean active = false;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Role role;
 

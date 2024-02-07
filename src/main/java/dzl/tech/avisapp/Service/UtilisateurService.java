@@ -4,6 +4,7 @@ import dzl.tech.avisapp.Dto.InscriptionDTO;
 import dzl.tech.avisapp.Dto.ResponseInscriptionDTO;
 import dzl.tech.avisapp.Entities.Validation;
 import dzl.tech.avisapp.Enum.TypeDeRole;
+import dzl.tech.avisapp.exception.controller.utilisateur.UtilisateurException;
 import dzl.tech.avisapp.mapper.ResponseInscriptionDTOMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,11 +35,10 @@ public class UtilisateurService implements UserDetailsService {
     private BCryptPasswordEncoder passwordEncoder;
     private ValidationService validationService ;
 
-    public ResponseInscriptionDTO inscription(Utilisateur utilisateur){
-
-        if(!utilisateur.getEmail().contains("@") || !utilisateur.getEmail().contains(".")) throw new RuntimeException("Le mail est invalide");
+    public ResponseInscriptionDTO inscription(Utilisateur utilisateur) throws UtilisateurException {
+        if(!utilisateur.getEmail().contains("@") || !utilisateur.getEmail().contains(".")) throw new UtilisateurException("Le mail est invalide" , "USC000");
         Optional<Utilisateur> utilisateurOptional = this.utilisateurRepository.findByEmail(utilisateur.getEmail());
-        if (utilisateurOptional.isPresent()) throw new RuntimeException("Cet email existe déja ");
+        if (utilisateurOptional.isPresent()) throw new UtilisateurException("Le mail est invalide" , "USC001");
         String mdpCrypt =  this.passwordEncoder.encode(utilisateur.getPassword());
         utilisateur.setMdp(mdpCrypt);
         Role roleUtilisateur = new Role();
@@ -46,12 +46,7 @@ public class UtilisateurService implements UserDetailsService {
         utilisateur.setRole(roleUtilisateur);
         utilisateur = this.utilisateurRepository.save(utilisateur);
         this.validationService.enregistrerValidation(utilisateur);
-
-        ResponseInscriptionDTO responseInscriptionDTO = new ResponseInscriptionDTOMapper().apply(utilisateur);
-
-        return responseInscriptionDTO;
-
-
+        return new ResponseInscriptionDTOMapper().apply(utilisateur);
 
     }
     public void activation(@RequestBody Map< String , String> activation){
