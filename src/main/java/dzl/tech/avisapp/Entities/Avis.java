@@ -25,6 +25,4 @@ public class Avis {
     private String statut;
     @ManyToOne
     private Utilisateur utilisateur ;
-
-
 }

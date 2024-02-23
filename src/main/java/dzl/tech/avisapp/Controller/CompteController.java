@@ -47,7 +47,7 @@ public class CompteController {
     }
 
     @PostMapping(path="connexion")
-    public Map<String , String> connexion(@RequestBody @Valid AuthenticationDTO authenticationDTO) throws MethodArgumentNotValidException{
+    public Map<String , String> connexion(@RequestBody @Valid AuthenticationDTO authenticationDTO) {
 
         final Authentication authenticate = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(authenticationDTO.username(), authenticationDTO.mdp())
