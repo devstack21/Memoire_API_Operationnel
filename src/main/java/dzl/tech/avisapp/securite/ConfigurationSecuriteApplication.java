@@ -36,6 +36,7 @@ private final BCryptPasswordEncoder bCryptPasswordEncoder;
                                 authorize.requestMatchers(POST, "user/inscription").permitAll()
                                         .requestMatchers(POST , "user/activation").permitAll()
                                         .requestMatchers(POST , "user/connexion").permitAll()
+                                        .requestMatchers(POST , "user/test").permitAll()
                                         .requestMatchers(POST , "/avis").permitAll()
                                         .requestMatchers(GET , "/avis").permitAll()
                                         .anyRequest().authenticated()

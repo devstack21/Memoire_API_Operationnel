@@ -36,6 +36,7 @@ public class UtilisateurService implements UserDetailsService {
     private ValidationService validationService ;
 
     public ResponseInscriptionDTO inscription(Utilisateur utilisateur) throws UtilisateurException {
+
         if(!utilisateur.getEmail().contains("@") || !utilisateur.getEmail().contains(".")) throw new UtilisateurException("Le mail est invalide" , "USC000");
         Optional<Utilisateur> utilisateurOptional = this.utilisateurRepository.findByEmail(utilisateur.getEmail());
         if (utilisateurOptional.isPresent()) throw new UtilisateurException("Le mail est invalide" , "USC001");

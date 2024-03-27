@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -32,9 +33,7 @@ public class CompteController {
     private final JwtService jwtService;
 
     @PostMapping(path="inscription",produces =  APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseInscriptionDTO inscription(@Valid @ModelAttribute @RequestBody Utilisateur utilisateur) throws UtilisateurException , MethodArgumentNotValidException{
-        System.out.println("INSCRIPTION");
-        log.info("Inscription");
+    public @ResponseBody ResponseInscriptionDTO inscription(@Valid  @RequestBody Utilisateur utilisateur) throws UtilisateurException , MethodArgumentNotValidException{
         return this.utilisateurService.inscription(utilisateur);
 
     }

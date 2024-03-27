@@ -2,6 +2,7 @@ package dzl.tech.avisapp.Entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -23,13 +24,13 @@ public class Utilisateur implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "Le mot de passe ne doit pas être vide")
+    @NotNull(message = "Le mot de passe ne doit pas être vide")
     @Column(name="mot_de_passe")
     private String mdp;
 
     private String username ;
 
-    @NotEmpty(message = "L'email ne doit pas être vide ")
+    @NotNull(message = "L'email ne doit pas être vide ")
     @Email(message = "L'email doit etre valide")
     @Column(unique = true)
     private String email;
